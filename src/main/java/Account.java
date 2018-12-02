@@ -1,14 +1,17 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Account {
     private final long number;
-    private Set<Money> money;
+    private Map<String, Money> money;
 
     public Account(final long number) {
+        this.money = new HashMap<>();
         this.number = number;
     }
 
-    public void setMoney(Set<Money> money) {
+    public void setMoney(Map<String, Money> money) {
         this.money = money;
     }
 
@@ -16,7 +19,7 @@ public class Account {
         return number;
     }
 
-    public Set<Money> getMoney() {
+    public Map<String, Money> getMoney() {
         return money;
     }
 }
