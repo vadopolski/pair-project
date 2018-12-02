@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Transaction {
+public class Transaction implements Runnable{
 
     private final static String COMPLETED = "COMPLETED";
     private static final String CREATED = "CREATED";
@@ -40,7 +40,7 @@ public class Transaction {
     public String getCurrency() { return currency; }
 
 
-    public String complete(){
+    public String complete() throws InterruptedException {
         Money moneyFrom = accountFrom.getMoney().get(currency);
 
         if (moneyFrom == null) {
@@ -56,8 +56,19 @@ public class Transaction {
         moneyFrom.reduce(amount);
         moneyTo.increase(amount);
 
+        Thread.sleep(10);
+
         status = COMPLETED;
 
         return status;
+    }
+
+    @Override
+    public void run() {
+        try {
+            this.complete();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -16,7 +16,7 @@ public class Money {
     }
 
     public void reduce(long amount) {
-            if(this.amount > amount){
+            if(this.amount >= amount){
                 this.amount = this.amount - amount;
             } else {
                 // TODO: 02.12.18 Exception

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //create multi currency  single user account
         Money dollar1 = new Money(5, "USD");
         Money euro1 = new Money(10, "EUR");

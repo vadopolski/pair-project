@@ -1,8 +1,7 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MultiThreadMain {
     public static void main(String[] args) throws InterruptedException {
@@ -14,9 +13,8 @@ public class MultiThreadMain {
         Account accountFrom = new Account(1111);
         accountFrom.setMoney(monies1);
 
-        System.out.println("Account number is "  + accountFrom.getNumber() +
+        System.out.println("BEFORE Account number is "  + accountFrom.getNumber() +
                 " amount of RUB is " + accountFrom.getMoney().get("RUB").getAmount());
-
 
         List<Account> accounts = new ArrayList<>();
 
@@ -29,21 +27,36 @@ public class MultiThreadMain {
 
         List<Transaction> transactions = new ArrayList<>();
 
+        Random random = new Random();
 
+        TransactionManager transactionManager = new TransactionManager();
+//        ExecutorService pool = Executors.newSingleThreadExecutor();
+        ExecutorService pool = Executors.newFixedThreadPool(10);
 
         for (int i = 0; i < 100; i++){
-            new Thread(){
-                Transaction transaction = new Transaction(accountFrom, accounts.get(0),
-                        LocalDateTime.now(), 1000, "RUB");
+            int acountNumber = random.nextInt(9);
+            Transaction transaction = transactionManager.createTransaction(accountFrom, accounts.get(acountNumber),
+                    LocalDateTime.now(), 10000, "RUB");
+            pool.execute(transaction);
 
-                Thread.sleep(100);
-                transaction.complete();
-                transactions.add(transaction);
-            }.start();
+            transactions.add(transaction);
         }
 
-        System.out.println("Account number is "  + accountFrom.getNumber() +
+        Thread.sleep(100);
+
+
+        System.out.println("AFTER Account number is "  + accountFrom.getNumber() +
                 " amount of RUB is " + accountFrom.getMoney().get("RUB").getAmount());
 
+        long result = 0;
+        for (Account account: accounts){
+
+            result += account.getMoney().get("RUB").getAmount();
+
+        }
+
+        System.out.println("AFTER The sum of amount in all to accounts is: " + result);
+
+        pool.shutdown();
     }
 }
