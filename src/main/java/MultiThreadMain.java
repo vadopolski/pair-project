@@ -34,11 +34,11 @@ public class MultiThreadMain {
         ExecutorService pool = Executors.newFixedThreadPool(10);
 
         for (int i = 0; i < 100; i++){
-            int acountNumber = random.nextInt(9);
+            int acountNumber = random.nextInt(10);
             Transaction transaction = transactionManager.createTransaction(accountFrom, accounts.get(acountNumber),
                     LocalDateTime.now(), 10000, "RUB");
             pool.execute(transaction);
-
+//            transaction.complete();
             transactions.add(transaction);
         }
 
