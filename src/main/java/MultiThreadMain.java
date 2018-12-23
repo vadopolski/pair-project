@@ -50,8 +50,10 @@ public class MultiThreadMain {
 
         long result = 0;
         for (Account account: accounts){
-
             result += account.getMoney().get("RUB").getAmount();
+
+            System.out.println("Account number: " +  account.getNumber()
+                                + "acoount amount: " + account.getMoney().get("RUB").getAmount());
 
         }
 
