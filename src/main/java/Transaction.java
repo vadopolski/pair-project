@@ -53,16 +53,16 @@ public class Transaction implements Runnable {
     
     
     public String complete() throws InterruptedException {
-        bankLock.lock();
+        bankLock.tryLock();
         
         try {
-            Money moneyFrom = accountFrom.getMoney().get(currency);
+            Money moneyFrom = accountFrom.getMoney();
             
             if (moneyFrom == null) {
                 return "There is no money in this currency";
             }
             
-            Money moneyTo = accountTo.getMoney().get(currency);
+            Money moneyTo = accountTo.getMoney();
             
             if (moneyTo == null) {
                 return "There is no money in this currency";

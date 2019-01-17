@@ -1,25 +1,18 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class Account {
     private final long number;
-    private Map<String, Money> money;
+    private final Money money;
 
-    public Account(final long number) {
-        this.money = new HashMap<>();
+    public Account(final long number, final Money money) {
+        this.money = money;
         this.number = number;
     }
-
-    public void setMoney(Map<String, Money> money) {
-        this.money = money;
-    }
-
+    
     public long getNumber() {
         return number;
     }
-
-    public Map<String, Money> getMoney() {
+    
+    public Money getMoney() {
         return money;
     }
 }
